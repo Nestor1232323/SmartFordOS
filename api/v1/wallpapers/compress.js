@@ -3,7 +3,6 @@ export const config = {
 };
 
 import sharp from "sharp";
-import fetch from "node-fetch";
 
 const WALLPAPERS = {
   classic: "https://smartford.vercel.app/wallpapers/classic/img2.png",
@@ -18,21 +17,26 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Invalid wallpaper" });
     }
 
-    const width = Math.min(Number(size), 512); // защита от abuse
+    const width = Math.min(parseInt(size, 10), 512);
+    if (isNaN(width) || width <= 0) {
+      return res.status(400).json({ error: "Invalid size" });
+    }
 
-    // 1️⃣ грузим картинку в память
+    // 1️⃣ fetch ВСТРОЕННЫЙ (Node 18+ на Vercel)
     const response = await fetch(WALLPAPERS[wallpaper]);
-    if (!response.ok) throw new Error("Image fetch failed");
+    if (!response.ok) {
+      throw new Error("Failed to fetch image");
+    }
 
     const buffer = Buffer.from(await response.arrayBuffer());
 
-    // 2️⃣ сжимаем
+    // 2️⃣ сжимаем в памяти
     const output = await sharp(buffer)
       .resize(width)
       .png({ compressionLevel: 8 })
       .toBuffer();
 
-    // 3️⃣ отдаём как изображение
+    // 3️⃣ отдаём картинку
     res.setHeader("Content-Type", "image/png");
     res.setHeader("Cache-Control", "public, max-age=86400");
 
