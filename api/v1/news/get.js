@@ -36,7 +36,7 @@ export default function handler(req, res) {
   // Берём только нужное количество
   const selectedNews = NEWS.slice(0, newsCount).map(item => ({
     ...item,
-    preview_url: `https://smartford.vercel.app/api/v1/news/compress?size=144&img=${encodeURIComponent(item.img)}`
+    preview_url: `https://smartford.vercel.app/api/v1/news/compress?size=60&img=${encodeURIComponent(item.img)}`
   }));
 
   res.status(200).json({
