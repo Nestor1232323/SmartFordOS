@@ -1,4 +1,7 @@
 export default function handler(req, res) {
+  const { count } = req.query;
+  const countNum = count ? parseInt(count) : wallpapers.length;
+
   const wallpapers = [
     {
       id: 1,
@@ -16,10 +19,11 @@ export default function handler(req, res) {
       preview_url:
         "https://smartford.vercel.app/api/v1/wallpapers/compress?size=144&wallpaper=winter"
     }
+    // можно добавить больше элементов
   ];
 
   res.status(200).json({
-    count: wallpapers.length,
-    data: wallpapers
+    count: Math.min(countNum, wallpapers.length),
+    data: wallpapers.slice(0, countNum)
   });
 }
