@@ -2,15 +2,22 @@ export const config = { runtime: "nodejs" };
 
 export default async function handler(req, res) {
   try {
-    const githubApi = "https://api.github.com/repos/Nestor1232323/SmartFordOS/contents/download?ref=main";
+    const githubApi =
+      "https://api.github.com/repos/Nestor1232323/SmartFordOS/contents/download?ref=main";
 
     const response = await fetch(githubApi, {
-      headers: { "Accept": "application/vnd.github.v3+json" }
+      headers: { Accept: "application/vnd.github.v3+json" }
     });
 
     if (!response.ok) throw new Error("Failed to fetch from GitHub");
 
     const files = await response.json();
+
+    // ссылки на иконки
+    const ICON_OLD =
+      "https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/img/icons/smosold.png";
+    const ICON_NEW =
+      "https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/img/icons/smosnew.png";
 
     const result = files
       .filter(f => f.name.endsWith(".pptm"))
@@ -20,13 +27,24 @@ export default async function handler(req, res) {
 
         const versionCode = match[1];
         const isBeta = versionCode.startsWith("b");
-        const versionName = isBeta ? `Beta ${versionCode.slice(1)}` : versionCode;
+
+        const versionName = isBeta
+          ? `Beta ${versionCode.slice(1)}`
+          : versionCode;
+
         const name = isBeta ? "Smartford OS Beta" : "Smartford OS";
+
+        // выбор иконки
+        const icon =
+          f.name.toLowerCase() === "smos2.0.pptm"
+            ? ICON_NEW
+            : ICON_OLD;
 
         return {
           version: versionName,
           name,
-          url: `https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/download/${f.name}`
+          url: `https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/download/${f.name}`,
+          icon
         };
       })
       .filter(Boolean);
