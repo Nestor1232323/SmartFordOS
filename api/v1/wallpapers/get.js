@@ -1,7 +1,4 @@
 export default function handler(req, res) {
-  const { count } = req.query;
-  const countNum = count ? parseInt(count) : wallpapers.length;
-
   const wallpapers = [
     {
       id: 1,
@@ -21,6 +18,9 @@ export default function handler(req, res) {
     }
     // можно добавить больше элементов
   ];
+
+  const { count } = req.query;
+  const countNum = count ? parseInt(count) : wallpapers.length;
 
   res.status(200).json({
     count: Math.min(countNum, wallpapers.length),
