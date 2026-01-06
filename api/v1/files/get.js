@@ -2,6 +2,29 @@ export const config = { runtime: "nodejs" };
 
 export default async function handler(req, res) {
   try {
+    const { count, placeholder } = req.query;
+    const countNum = count ? parseInt(count) : null;
+    const usePlaceholder = placeholder === "true";
+
+    // ссылки на иконки
+    const ICON_OLD =
+      "https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/img/icons/smosold.png";
+    const ICON_NEW =
+      "https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/img/icons/smosnew.png";
+
+    // если placeholders
+    if (usePlaceholder) {
+      const placeholderCount = countNum || 5;
+      const placeholders = Array.from({ length: placeholderCount }, (_, i) => ({
+        version: "0.0",
+        name: `Smartford OS Placeholder ${i + 1}`,
+        url: "#",
+        icon: i % 2 === 0 ? ICON_OLD : ICON_NEW
+      }));
+      return res.status(200).json(placeholders);
+    }
+
+    // обычный fetch GitHub
     const githubApi =
       "https://api.github.com/repos/Nestor1232323/SmartFordOS/contents/download?ref=main";
 
@@ -13,13 +36,7 @@ export default async function handler(req, res) {
 
     const files = await response.json();
 
-    // ссылки на иконки
-    const ICON_OLD =
-      "https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/img/icons/smosold.png";
-    const ICON_NEW =
-      "https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/img/icons/smosnew.png";
-
-    const result = files
+    let result = files
       .filter(f => f.name.endsWith(".pptm"))
       .map(f => {
         const match = f.name.match(/smos(b?\d+\.\d+)\.pptm/i);
@@ -29,7 +46,6 @@ export default async function handler(req, res) {
         const isBeta = versionCode.startsWith("b");
         const versionNumber = isBeta ? versionCode.slice(1) : versionCode;
 
-        // теперь имя сразу с версией
         const name = isBeta
           ? `Smartford OS Beta ${versionNumber}`
           : `Smartford OS ${versionNumber}`;
@@ -48,6 +64,11 @@ export default async function handler(req, res) {
         };
       })
       .filter(Boolean);
+
+    // оставляем только последние N, если count указан
+    if (countNum) {
+      result = result.slice(-countNum);
+    }
 
     res.status(200).json(result);
   } catch (err) {
