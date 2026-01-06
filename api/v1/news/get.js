@@ -18,15 +18,8 @@ export default function handler(req, res) {
       author: "SmartfordOS Insider"
     },
     {
-      title: "Новые темы для SmartfordOS",
-      img: "/img/news/card3.png",
-      date: "2026-01-08",
-      description: "Теперь можно менять обои и темы оформления прямо из настроек.",
-      author: "SmartfordOS Insider"
-    },
-    {
       title: "Официальный релиз Smartford OS 1.0",
-      img: "/img/news/card4.png",
+      img: "/img/news/card3.png",
       date: "2025-12-01",
       description: "Вышла официальная версия нашей ОС. SMOS Браузер официально начал свою работу, был расширен функционал проводника (были добавлены рабочие папки на дисках) и немного обновлена панель задач. Скачать текущую версию системы можно с нашего сайта или Telegram канала. ",
       author: "SmartfordOS Insider"
