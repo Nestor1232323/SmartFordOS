@@ -27,12 +27,12 @@ export default async function handler(req, res) {
 
         const versionCode = match[1];
         const isBeta = versionCode.startsWith("b");
+        const versionNumber = isBeta ? versionCode.slice(1) : versionCode;
 
-        const versionName = isBeta
-          ? `Beta ${versionCode.slice(1)}`
-          : versionCode;
-
-        const name = isBeta ? "Smartford OS Beta" : "Smartford OS";
+        // теперь имя сразу с версией
+        const name = isBeta
+          ? `Smartford OS Beta ${versionNumber}`
+          : `Smartford OS ${versionNumber}`;
 
         // выбор иконки
         const icon =
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
             : ICON_OLD;
 
         return {
-          version: versionName,
+          version: versionNumber,
           name,
           url: `https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/download/${f.name}`,
           icon
