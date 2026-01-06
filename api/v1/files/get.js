@@ -2,7 +2,7 @@ export const config = { runtime: "nodejs" };
 
 export default async function handler(req, res) {
   try {
-    const githubApi = "https://api.github.com/repos/Nestor1232323/SmartFordOS/contents/public/download?ref=main";
+    const githubApi = "https://api.github.com/repos/Nestor1232323/SmartFordOS/contents/download?ref=main";
 
     const response = await fetch(githubApi, {
       headers: { "Accept": "application/vnd.github.v3+json" }
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
         return {
           version: versionName,
           name,
-          url: `https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/public/download/${f.name}`
+          url: `https://raw.githubusercontent.com/Nestor1232323/SmartFordOS/main/download/${f.name}`
         };
       })
       .filter(Boolean);
