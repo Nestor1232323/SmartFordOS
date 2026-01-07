@@ -6,7 +6,8 @@ import sharp from "sharp";
 
 const WALLPAPERS = {
   classic: "https://smartford.vercel.app/wallpapers/classic/img2.png",
-  winter: "https://smartford.vercel.app/wallpapers/winter/img2.png"
+  winter: "https://smartford.vercel.app/wallpapers/winter/img2.png",
+  default: "https://smartford.vercel.app/wallpapers/default/img2.png"
 };
 
 export default async function handler(req, res) {

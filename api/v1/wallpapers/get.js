@@ -2,11 +2,11 @@ export default function handler(req, res) {
   const wallpapers = [
     {
       id: 1,
-      title: "Классические",
-      url: "https://smartford.vercel.app/wallpapers/classic/img1.png",
-      blur_url: "https://smartford.vercel.app/wallpapers/classic/img2.png",
+      title: "Стандартные",
+      url: "https://smartford.vercel.app/wallpapers/default/img1.png",
+      blur_url: "https://smartford.vercel.app/wallpapers/default/img2.png",
       preview_url:
-        "https://smartford.vercel.app/api/v1/wallpapers/compress?size=144&wallpaper=classic"
+        "https://smartford.vercel.app/api/v1/wallpapers/compress?size=144&wallpaper=default"
     },
     {
       id: 2,
@@ -15,8 +15,15 @@ export default function handler(req, res) {
       blur_url: "https://smartford.vercel.app/wallpapers/winter/img2.png",
       preview_url:
         "https://smartford.vercel.app/api/v1/wallpapers/compress?size=144&wallpaper=winter"
+    },
+    {
+      id: 3,
+      title: "Классические (modern)",
+      url: "https://smartford.vercel.app/wallpapers/classic/img1.png",
+      blur_url: "https://smartford.vercel.app/wallpapers/classic/img2.png",
+      preview_url:
+        "https://smartford.vercel.app/api/v1/wallpapers/compress?size=144&wallpaper=classic"
     }
-    // можно добавить больше элементов
   ];
 
   const { count } = req.query;
