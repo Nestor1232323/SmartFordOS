@@ -1,18 +1,17 @@
 export default async function handler(req, res) {
   const { searchParams } = new URL(req.url, `http://${req.headers.host}`);
   
+  // Используем decodeURIComponent для корректной обработки кириллицы
   const apiKey = searchParams.get('key');
   const model = searchParams.get('model');
   const systemPrompt = searchParams.get('system_prompt');
-  const userPrompt = searchParams.get('prompt'); // Добавим сам текст вопроса
+  const userPrompt = searchParams.get('prompt');
   const temperature = searchParams.get('temp') || 0.7;
   const maxTokens = searchParams.get('tokens');
 
   if (!apiKey || !model || !userPrompt) {
-    return res.status(400).json({ error: "Missing required parameters" });
+    return res.status(400).send("Error: Missing parameters");
   }
-
-  const fullContent = `System Instruction: ${systemPrompt}\n${userPrompt}`;
 
   try {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -23,21 +22,17 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: model,
-        messages: [{ role: "user", content: fullContent }],
+        messages: [
+            { role: "user", content: `System: ${systemPrompt}\nContext: ${userPrompt}` }
+        ],
         temperature: parseFloat(temperature),
         max_tokens: maxTokens ? parseInt(maxTokens) : undefined
       })
     });
 
     const data = await response.json();
-    
-    if (data.choices && data.choices[0]) {
-      // Возвращаем чистый текст для упрощения обработки в VBA
-      res.status(200).send(data.choices[0].message.content);
-    } else {
-      res.status(500).send(data.error?.message || "AI Error");
-    }
+    res.status(200).send(data.choices[0].message.content);
   } catch (error) {
-    res.status(500).send("Server Error: " + error.message);
+    res.status(500).send("Error: " + error.message);
   }
 }
