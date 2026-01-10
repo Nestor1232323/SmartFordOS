@@ -1,16 +1,19 @@
 export default async function handler(req, res) {
   const { searchParams } = new URL(req.url, `http://${req.headers.host}`);
   
-  // Используем decodeURIComponent для корректной обработки кириллицы
-  const apiKey = searchParams.get('key');
+  // Пробуем взять либо 'api', либо 'key' для надежности
+  const apiKey = searchParams.get('api') || searchParams.get('key');
   const model = searchParams.get('model');
-  const systemPrompt = searchParams.get('system_prompt');
+  const systemPrompt = searchParams.get('system_prompt') || "";
   const userPrompt = searchParams.get('prompt');
-  const temperature = searchParams.get('temp') || 0.7;
+  const temperature = searchParams.get('temp') || "0.7";
   const maxTokens = searchParams.get('tokens');
 
+  // Отладка в консоль Vercel
+  console.log("Params received:", { model, hasKey: !!apiKey, hasPrompt: !!userPrompt });
+
   if (!apiKey || !model || !userPrompt) {
-    return res.status(400).send("Error: Missing parameters");
+    return res.status(400).send(`Error: Missing parameters. Key: ${!!apiKey}, Model: ${!!model}, Prompt: ${!!userPrompt}`);
   }
 
   try {
@@ -23,7 +26,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: model,
         messages: [
-            { role: "user", content: `System: ${systemPrompt}\nContext: ${userPrompt}` }
+          { role: "user", content: `System: ${systemPrompt}\n\n${userPrompt}` }
         ],
         temperature: parseFloat(temperature),
         max_tokens: maxTokens ? parseInt(maxTokens) : undefined
@@ -31,8 +34,13 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    res.status(200).send(data.choices[0].message.content);
+    
+    if (data.choices && data.choices[0]) {
+      res.status(200).send(data.choices[0].message.content);
+    } else {
+      res.status(500).send(data.error?.message || "OpenRouter Error");
+    }
   } catch (error) {
-    res.status(500).send("Error: " + error.message);
+    res.status(500).send("Server Error: " + error.message);
   }
 }
