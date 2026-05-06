@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smartford OS Documentation</title>
+    <title>SmartApp SDK Documentation</title>
 
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500&display=swap">
 
     
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=code,content_copy,dark_mode,description,done,light_mode,menu,palette,security,terminal" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=code,content_copy,contrast,dark_mode,description,done,light_mode,menu,palette,security,terminal" />
 
     <script type="importmap">
     {
@@ -23,30 +23,39 @@
     </script>
 
     <script type="module">
-        import 'https://esm.run/@material/web/all.js';
-        import { argbFromHex, themeFromSourceColor, applyTheme } from 'material-color-utilities';
-        import { styles as typescaleStyles } from 'https://esm.run/@material/web/typography/md-typescale-styles.js';
+import 'https://esm.run/@material/web/all.js';
+import { argbFromHex, themeFromSourceColor, applyTheme } from 'material-color-utilities';
+import { styles as typescaleStyles } from 'https://esm.run/@material/web/typography/md-typescale-styles.js';
+document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+const theme = themeFromSourceColor(argbFromHex('#3C6C9C'), [
+    { name: 'custom-1', value: argbFromHex('#ff0000'), blend: true }
+]);
+const themeFab = document.getElementById('theme-fab');
+const updateTheme = (isDark) => {
+    applyTheme(theme, { target: document.body, dark: isDark });
+    document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+    
+    const icons = document.querySelectorAll('md-icon');
+    icons.forEach(icon => {
+        if (icon.closest('.theme-button-desktop') || icon.closest('.theme-fab-mobile')) {
+            icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+        }
+    });
+};
 
-        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+themeFab.addEventListener('click', () => {
+    window.toggleTheme(); 
+});
 
-        
-        const theme = themeFromSourceColor(argbFromHex('#3C6C9C'), [
-            { name: 'custom-1', value: argbFromHex('#ff0000'), blend: true }
-        ]);
+window.toggleTheme = () => {
+    const isDark = document.documentElement.style.colorScheme === 'dark';
+    updateTheme(!isDark);
+};
 
-        const updateTheme = (isDark) => {
-            applyTheme(theme, { target: document.body, dark: isDark });
-            document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
-        };
+const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+updateTheme(mediaQuery.matches);
+mediaQuery.addEventListener('change', e => updateTheme(e.matches));
 
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        updateTheme(mediaQuery.matches);
-        mediaQuery.addEventListener('change', e => updateTheme(e.matches));
-
-        window.toggleTheme = () => {
-            const isDark = document.documentElement.style.colorScheme === 'dark';
-            updateTheme(!isDark);
-        };
         
 await customElements.whenDefined('md-list-item');
 
@@ -84,7 +93,6 @@ highlightCurrentHash();
     ]);
 
     const highlightSmapp = (text) => {
-        
         let html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
         return html
@@ -141,12 +149,9 @@ highlightCurrentHash();
 
     <style>
         :root {
-            
             --md-ref-typeface-brand: 'Google Sans', 'Roboto', sans-serif;
             --md-ref-typeface-plain: 'Roboto', sans-serif;
             --md-code-font: 'Google Sans Code', Menlo, Monaco, 'Consolas', 'Courier New', monospace;
-            
-            
             --catalog-top-app-bar-height: 64px;
             --catalog-spacing-l: 24px;
             --catalog-spacing-m: 16px;
@@ -173,7 +178,6 @@ highlightCurrentHash();
             height: 90vh; 
         }
         .content-container {
-            overflow-y: auto !important; 
             scrollbar-width: thin !important;
             scrollbar-color: var(--md-sys-color-outline-variant) transparent !important;
             padding: 24px !important;
@@ -300,123 +304,133 @@ highlightCurrentHash();
             bottom: 24px;
             right: 24px;
         }
+        .fab-theme {
+            display: none !important;
+        }
+            @media (max-width: 800px) {
+                :root { --catalog-spacing-l: 16px; }
+                .nav-side { display: none; }
+                .smosbutton { display: none; }
+                .content-container {padding: 16px !important;max-width: 100%;border-radius: 12px 12px 0px 0px;}
+                main { padding: 0px 0px 0px 0px !important; }
+                .fab-theme {display: flex !important;position: fixed;bottom: 24px;right: 24px;z-index: 100;}
+                .theme-button {display: none !important;}
+            }
         
-        @media (max-width: 600px) {
-            :root { --catalog-spacing-l: 16px; }
-            .header-title span { display: none; }
+
+        main {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: stretch !important; 
+            gap: 24px;
+            height: calc(100vh - var(--catalog-top-app-bar-height)); 
+            margin-top: var(--catalog-top-app-bar-height) !important;
+            padding: 0px 0px 0px var(--catalog-spacing-l);
+            max-width: 1440px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden; 
         }
 
-main {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: stretch !important; 
-    gap: 24px;
-    height: calc(100vh - var(--catalog-top-app-bar-height)); 
-    margin-top: var(--catalog-top-app-bar-height) !important;
-    padding: 0px 0px 0px var(--catalog-spacing-l) !important;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden; 
-}
+
+        .nav-side {
+            width: 280px;
+            padding-top: 24px;
+            overflow-y: auto; 
+            flex-shrink: 0;
+        }
 
 
-.nav-side {
-    width: 280px;
-    padding-top: 24px;
-    overflow-y: auto; 
-    flex-shrink: 0;
-}
+        .nav-side::-webkit-scrollbar {
+            width: 0px;
+        }
+        .nav-side {
+            scrollbar-width: none;
+        }
 
 
-.nav-side::-webkit-scrollbar {
-    width: 0px;
-}
-.nav-side {
-    scrollbar-width: none;
-}
+        md-list-item {
+            --md-list-item-container-shape: 100px; 
+            margin-bottom: 4px;
+        }
+        md-list {
+            background: transparent;
+        }
 
 
-md-list-item {
-    --md-list-item-container-shape: 100px; 
-    margin-bottom: 4px;
-}
-md-list {
-    background: transparent;
-}
+        md-list-item {
+            border-radius: 50px; 
 
+        }
 
-md-list-item {
-    border-radius: 50px; 
+        md-list-item:hover {
+            background-color: var(--md-sys-color-surface-container-high);
+        }
 
-}
+        md-icon {
+        font-variation-settings:
+            'FILL' 0,
+            'wght' 300,
+            'GRAD' 0,
+            'opsz' 24;
+        
+        font-family: 'Material Symbols Rounded';
+        }
 
-md-list-item:hover {
-    background-color: var(--md-sys-color-surface-container-high);
-}
+        .code-wrapper {
+            position: relative;
+            margin: 16px 0;
+        }
 
-md-icon {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 300,
-    'GRAD' 0,
-    'opsz' 24;
-  
-  font-family: 'Material Symbols Rounded';
-}
+        .copy-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            background-color: var(--md-sys-color-surface-container-high);
+            border-radius: 12px;
+            z-index: 5;
+        }
 
-.code-wrapper {
-    position: relative;
-    margin: 16px 0;
-}
+        .code-wrapper:hover .copy-button,
+        .code-wrapper:focus-within .copy-button {
+            opacity: 1;
+        }
 
-.copy-button {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    background-color: var(--md-sys-color-surface-container-high);
-    border-radius: 12px;
-    z-index: 5;
-}
+        .code-block .syntax-section {
+            color: var(--md-sys-color-primary);
+            font-weight: 600;
+        }
 
-.code-wrapper:hover .copy-button,
-.code-wrapper:focus-within .copy-button {
-    opacity: 1;
-}
+        .code-block .syntax-key {
+            color: var(--md-sys-color-on-surface);
+            font-weight: 500;
+        }
 
-.code-block .syntax-section {
-    color: var(--md-sys-color-primary);
-    font-weight: 600;
-}
+        .code-block .syntax-value {
+            color: var(--md-sys-color-primary);
+        }
 
-.code-block .syntax-key {
-    color: var(--md-sys-color-on-surface);
-    font-weight: 500;
-}
+        .code-block .syntax-comment {
+            color: var(--md-sys-color-outline);
+            font-style: italic;
+        }
 
-.code-block .syntax-value {
-    color: var(--md-sys-color-primary);
-}
+        md-list-item[selected] {
+            background: var(--md-sys-color-secondary-container);
+        }
 
-.code-block .syntax-comment {
-    color: var(--md-sys-color-outline);
-    font-style: italic;
-}
-
-md-list-item[selected] {
-    background: var(--md-sys-color-secondary-container);
-}
-    </style>
+ </style>
 </head>
 <body>
 
     <header>
         <div class="header-title">
-            <span class="md-typescale-title-large">Документация SmartFord OS</span>
+            <span class="md-typescale-title-large" id="smostextdocs">Документация SmartFord OS</span>
         </div>
         <div class="header-actions">
-            <md-filled-tonal-button onclick="toggleTheme()">
+            <md-filled-tonal-button onclick="toggleTheme()" class="theme-button">
             <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
             <path d="M324-111.5Q251-143 197-197t-85.5-127Q80-397 80-480t31.5-156Q143-709 197-763t127-85.5Q397-880 480-880t156 31.5Q709-817 763-763t85.5 127Q880-563 880-480t-31.5 156Q817-251 763-197t-127 85.5Q563-80 480-80t-156-31.5ZM520-163q119-15 199.5-104.5T800-480q0-123-80.5-212.5T520-797v634Z"/>
             </svg>
@@ -713,5 +727,8 @@ if (document.readyState === 'loading') {
     setupScrollSpy();
 }
 </script>
+<md-fab id="theme-fab" aria-label="Сменить тему" class="fab-theme" variant="secondary">
+  <md-icon slot="icon">contrast</md-icon>
+</md-fab>
 </body>
 </html>
