@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartApp SDK Documentation</title>
+    <title>SmartFordOS Documentation</title>
 
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500&display=swap">
 
     
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=code,content_copy,contrast,dark_mode,description,done,light_mode,menu,palette,security,terminal" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=api,article,code,content_copy,contrast,dark_mode,description,done,light_mode,menu,palette,security,shield,terminal" />
 
     <script type="importmap">
     {
@@ -104,7 +104,7 @@ highlightCurrentHash();
         return html
             
             
-            .replace(/^(#.*)$/gm, '<span class="syntax-comment">$1</span>')
+            .replace(/(#.*)$/gm, '<span class="syntax-comment">$1</span>')
             
             
             .replace(/^(\[.*\])$/gm, '<span class="syntax-section">$1</span>')
@@ -190,7 +190,9 @@ highlightCurrentHash();
             overflow: hidden !important; 
         }
 
-
+        .btnexample {
+            font-weight: normal;
+        }
         main {
             height: 90vh; 
         }
@@ -384,15 +386,37 @@ highlightCurrentHash();
         }
 
         md-icon {
-        font-variation-settings:
+            font-variation-settings:
             'FILL' 0,
             'wght' 300,
             'GRAD' 0,
             'opsz' 24;
-        
-        font-family: 'Material Symbols Rounded';
+            font-family: 'Material Symbols Rounded';
+        }
+        .content-container h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
+        .content-container h2 .material-symbols-rounded {
+            font-size: 32px;
+            vertical-align: middle;
+            font-variation-settings:
+            'FILL' 1,
+            'wght' 300,
+            'GRAD' 0,
+            'opsz' 24;
+            font-family: 'Material Symbols Rounded';
+        }
+        md-list-item[selected] md-icon[slot="start"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .md-typescale-headline-medium {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         .code-wrapper {
             position: relative;
             margin: 16px 0;
@@ -432,10 +456,17 @@ highlightCurrentHash();
             color: var(--md-sys-color-outline);
             font-style: italic;
         }
-
+        .code-block .syntax-comment {
+            color: var(--md-sys-color-on-surface-variant);
+            font-style: italic;
+        }
         md-list-item[selected] {
             background: var(--md-sys-color-secondary-container);
         }
+        md-list-item md-icon[slot="start"] {
+    vertical-align: middle;
+    font-size: 24px;
+}
 
  </style>
 </head>
@@ -458,30 +489,41 @@ highlightCurrentHash();
 <main>
     <div class="nav-side">
         <md-list aria-label="Documentation Navigation">
-            <span class="md-typescale-title-large">Приложения</span>
+            <span class="md-typescale-title-large">Содержание</span>
             <div style="margin: 8px 0"></div>
+            
             <md-list-item href="#structure" type="link">
+                <md-icon slot="start">description</md-icon>
                 <div slot="headline">Структура</div>
             </md-list-item>
             
             <md-list-item href="#components" type="link">
+                <md-icon slot="start">code</md-icon>
                 <div slot="headline">Компоненты</div>
             </md-list-item>
             
             <md-list-item href="#events" type="link">
+                <md-icon slot="start">terminal</md-icon>
                 <div slot="headline">События</div>
             </md-list-item>
             
             <md-list-item href="#api" type="link">
+                <md-icon slot="start">api</md-icon>
                 <div slot="headline">API</div>
             </md-list-item>
-            
-            
+
             <md-list-item href="#permissions" type="link">
+                <md-icon slot="start">security</md-icon>
                 <div slot="headline">Разрешения</div>
             </md-list-item>
             
+            <md-list-item href="#security" type="link">
+                <md-icon slot="start">shield</md-icon>
+                <div slot="headline">Безопасность</div>
+            </md-list-item>
+            
             <md-list-item href="#example" type="link">
+                <md-icon slot="start">article</md-icon>
                 <div slot="headline">Полный пример</div>
             </md-list-item>
         </md-list>
@@ -513,11 +555,16 @@ permissions=["storage","network"]
 type=button
 label=Нажми меня
 onClick=handleButtonClick
+buttonStyle=filled
+position=["middle", "bottom"]
+margin=["0", "2"]
 
 [Text1]
 type=text
 id=text1
 content=Привет, SmartFord OS!
+position=["left", "top"]
+margin=["2", "0"]
 
 [Events]
 handleButtonClick=smartfordos.ui.update("text1","Clicked")</div>
@@ -537,26 +584,88 @@ handleButtonClick=smartfordos.ui.update("text1","Clicked")</div>
                 </p>
 
                 <div class="code-block">type=button
-label="Нажми меня"
+label=Нажми меня
 buttonStyle=filled
 onClick=handleButtonClick
-position=middle,bottom
-margin=0,2
-id="btn1"</div>
+position=["middle", "bottom"]
+margin=["0", "2"]
+id=btn1</div>
+            <p class="md-typescale-body-medium">
+                Поддерживаемые стили:
+            </p>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0;">
+                <span class="token-chip">outlined</span>
+                <span class="token-chip">filled</span>
+                <span class="token-chip">elevated</span>
+                <span class="token-chip">tonal</span>
+            </div>
+            Код:
+                            <div class="code-block">type=button
+label=Нажми меня
+buttonStyle=tonal
+onClick=handleButtonClick
+position=["middle", "bottom"]
+margin=["0", "2"]
+id=btn1</div>
+Как выглядит: <br>
+<div style="margin: 16px 0;">
+            <md-filled-tonal-button class="btnexample" >Нажми меня</md-filled-tonal-button>
             </div>
 
             <div class="component-card2">
                 <h3 class="md-typescale-title-medium">Text</h3>
 
                 <div class="code-block">type=text
-id="text1"
-content="Привет!"
+id=text1
+content=Привет!
 size=18
+font=Arial
 color=onSurface
-position=left,top</div>
+position=["left", "top"]</div>
 
+                
+            <p class="md-typescale-body-medium">
+                Поддерживаемые цвета:
+            </p>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0;">
+                <span class="token-chip">primary</span>
+                <span class="token-chip">onPrimary</span>
+                <span class="token-chip">primaryContainer</span>
+                <span class="token-chip">onPrimaryContainer</span>
+                <span class="token-chip">secondary</span>
+                <span class="token-chip">onSecondary</span>
+                <span class="token-chip">secondaryContainer</span>
+                <span class="token-chip">onSecondaryContainer</span>
+                <span class="token-chip">surface</span>
+                <span class="token-chip">onSurface</span>
+                <span class="token-chip">onSurfaceVariant</span>
+                <span class="token-chip">surfaceContainer</span>
+                <span class="token-chip">surfaceDim</span>
+                <span class="token-chip">outline</span>
+                <span class="token-chip">shadow</span>
+                <span class="token-chip">error</span>
+                <span class="token-chip">onError</span>
+            </div>
+            
+            <p class="md-typescale-body-small">
+                Также поддерживаются:<br>
+                • HEX-формат: <span class="token-chip">color="#FF5722"</span><br>
+                • RGB-числовой: <span class="token-chip">color=12345678</span><br>
+                • По умолчанию: <span class="token-chip">color="onSurface"</span>
+            </p>
+            <p class="md-typescale-body-medium">
+                <strong>Поддерживаемые шрифты:</strong> <br> любые, которые установлены у пользователя (например, Arial, Times New Roman, Roboto и т.д.)
+            </p>
+            </div>
+            <div class="component-card2">
+                <h3 class="md-typescale-title-medium">Позиционирование</h3>
+                <div class="code-block">position=["left", "top"]   # горизонталь, вертикаль 
+margin=["2", "0"]        # горизонтальный, вертикальный отступ (в мм/10)</div>
                 <p class="md-typescale-body-small">
-                    Цвет автоматически преобразуется через палитру <span class="token-chip">CurrentPalette</span>.
+                    <strong>Горизонталь:</strong> left, middle, right<br>
+                    <strong>Вертикаль:</strong> top, middle, bottom, center
                 </p>
             </div>
         </section>
@@ -569,14 +678,13 @@ position=left,top</div>
             </h2>
 
             <p class="md-typescale-body-medium">
-                События выполняются через <span class="token-chip">ExecuteEventChain</span> и поддерживают цепочки команд через <span class="token-chip">-></span>.
+                События выполняются через <span class="token-chip">ExecuteEventChain</span> и поддерживают цепочки команд через <span class="token-chip">-></span>. (аналог коварного goto)
             </p>
 
-            <div class="code-block">handleButtonClick=
-smartfordos.api.storage.create_dir(".test")
--> smartfordos.api.storage.write_file(".test/new.txt","Hello!")
--> smartfordos.api.storage.file.read(".test/new.txt")
--> smartfordos.ui.update("text1","{res}")</div>
+<div class="code-block">handleButtonClick=smartfordos.api.storage.create_dir(".test") -> onDirCreated
+onDirCreated=smartfordos.api.storage.write_file(".test/new.txt", "Hello!") -> handleRead
+handleRead=smartfordos.api.storage.file.read(".test/new.txt") -> updateUI
+updateUI=smartfordos.ui.update("text1", "{res}")</div>
 
             <p class="md-typescale-body-small">
                 <span class="token-chip">{res}</span> - результат текущей команды<br><span class="token-chip">{prev_res}</span> - результат предыдущей команды
@@ -586,48 +694,53 @@ smartfordos.api.storage.create_dir(".test")
         
         <section id="api">
             <h2 class="md-typescale-headline-medium">
-                <span class="material-symbols-rounded">code</span>
+                <span class="material-symbols-rounded">api</span>
                 API
             </h2>
 
             <div class="component-card2">
                 <h3 class="md-typescale-title-medium">Storage API</h3>
-
                 <div class="code-block">smartfordos.api.storage.create_dir("folder")
 smartfordos.api.storage.write_file("file.txt","data")
 smartfordos.api.storage.file.read("file.txt")</div>
+                <p class="md-typescale-body-small">Требует разрешения: <span class="token-chip">storage</span></p>
             </div>
 
             <div class="component-card2">
                 <h3 class="md-typescale-title-medium">Network API</h3>
-
                 <div class="code-block">smartfordos.network.fetch("https://example.com")
-smartfordos.network.fetch.post(url, body, headers)</div>
-
-                <p class="md-typescale-body-small">
-                    Требует разрешения: <span class="token-chip">network</span>
-                </p>
+smartfordos.network.fetch.get("https://example.com")
+smartfordos.network.fetch.post("https://example.com", "body", "Content-Type: application/json")
+smartfordos.network.fetch.delete("https://example.com")</div>
+                <p class="md-typescale-body-small">Требует разрешения: <span class="token-chip">network</span></p>
             </div>
 
             <div class="component-card2">
-                <h3 class="md-typescale-title-medium">Prefs API</h3>
-
+                <h3 class="md-typescale-title-medium">Prefs API (хранилище настроек)</h3>
                 <div class="code-block">smartfordos.prefs.set("key","value","String")
 smartfordos.prefs.get("key")
-smartfordos.prefs.delete("key")</div>
+smartfordos.prefs.delete("key")
+smartfordos.prefs.type("key")
+smartfordos.prefs.list()</div>
+                <p class="md-typescale-body-small">Типы: <span class="token-chip">String</span>, <span class="token-chip">Boolean</span>, <span class="token-chip">Number</span></p>
             </div>
 
             <div class="component-card2">
                 <h3 class="md-typescale-title-medium">UI API</h3>
-
                 <div class="code-block">smartfordos.ui.update("text1","New text")</div>
+                <p class="md-typescale-body-small">Обновляет текст компонента по <span class="token-chip">id</span> или <span class="token-chip">AlternativeText</span></p>
             </div>
 
             <div class="component-card2">
                 <h3 class="md-typescale-title-medium">System API</h3>
-
                 <div class="code-block">smartfordos.system.wait("3000")
-smartfordos.system.call("hyperlink","https://google.com")</div>
+smartfordos.system.call("hyperlink","https://google.com")
+smartfordos.system.call("macros","ModuleName.MacroName")</div>
+                <p class="md-typescale-body-small">
+                    <strong>wait</strong> - задержка в миллисекундах<br>
+                    <strong>hyperlink</strong> - открытие ссылки (с проверкой безопасности)<br>
+                    <strong>macros</strong> - запуск макроса VBA
+                </p>
             </div>
         </section>
 
@@ -645,11 +758,26 @@ smartfordos.system.call("hyperlink","https://google.com")</div>
                 </ul>
             </md-outlined-card>
         </section>
-
+        <section id="security">
+            <h2 class="md-typescale-headline-medium">
+                <span class="material-symbols-rounded">shield</span>
+                Безопасность
+            </h2>
+            В SmartFord OS реализованы механизмы безопасности (в сетевых запросах) для защиты пользователей от вредоносного контента и обеспечения безопасного взаимодействия с приложениями. Например, SmartFord OS блокирует:
+            <md-outlined-card style="padding:16px; display:block;">
+                <ul>
+                    <li>.ua домены</li> <!-- потому что живет автор в рф -->
+                    <li>NSFW (adult) контент</li>
+                    <li>Телеграмм каналы (кроме разрешенных: https://t.me/SmartfordOS, https://t.me/AndreyGreece1606, https://t.me/nestoros5, https://t.me/vanko_corporation", https://t.me/TSD_TML_OFFICIAL, https://t.me/Chel_v_trusax)</li>
+                    <li>Редиректы (могут содержать все что угодно, включая NSFW, и др.)</li>
+                    <li>HTTP запросы (разрешен только HTTPS)</li>
+                </ul>
+            </md-outlined-card>
+        </section>
         
         <section id="example">
             <h2 class="md-typescale-headline-medium">
-                <span class="material-symbols-rounded">code</span>
+                <span class="material-symbols-rounded">article</span>
                 Полный пример
             </h2>
 
@@ -659,7 +787,7 @@ title=Пример приложения
 version=1.0.0
 author=SmartFord Company
 permissions=["storage", "network"]
-minimal_version_of_smos="3.0"
+minimal_version_of_smos=3.0
 
 [Button1]
 type=button
@@ -668,11 +796,11 @@ onClick=handleButtonClick
 buttonStyle="filled"
 position=["middle", "bottom"]
 margin=["0", "2"]
-id="btn1"
+id=btn1
 
 [Text1]
 type=text
-id="text1"
+id=text1
 content=Привет, SmartFord OS!
 font=Arial
 margin=["2", "0"]
