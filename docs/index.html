@@ -91,7 +91,35 @@ const highlightCurrentHash = () => {
 
 window.addEventListener('hashchange', highlightCurrentHash);
 highlightCurrentHash();
+// Функция для плавного скролла к элементу внутри контейнера
+const scrollToHash = () => {
+    const hash = window.location.hash;
+    if (!hash) return;
 
+    // Ищем целевой элемент (section или заголовок с id)
+    const targetElement = document.querySelector(hash);
+    const container = document.querySelector('.content-container');
+
+    if (targetElement && container) {
+        // Вычисляем позицию элемента относительно контейнера
+        const targetTop = targetElement.offsetTop;
+        
+        // Скроллим контейнер
+        container.scrollTo({
+            top: targetTop - 20, // небольшой отступ сверху для красоты
+            behavior: 'smooth'
+        });
+    }
+};
+
+// Вызываем при загрузке страницы
+window.addEventListener('load', () => {
+    // Небольшая задержка, чтобы кастомные элементы Material Web успели отрендериться
+    setTimeout(scrollToHash, 100);
+});
+
+// Вызываем при изменении хеша (если юзер кликнул в меню)
+window.addEventListener('hashchange', scrollToHash);
     </script>
 <script type="module">
     await Promise.all([
