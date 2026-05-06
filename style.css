@@ -46,7 +46,7 @@
         }
 
         
-        @media (max-width: 600px) {
+        @media (max-width: 1000px) {
             body { flex-direction: column; }
             .nav-container {
                 order: 2; 
