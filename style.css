@@ -203,7 +203,7 @@
   /* Дополнительно — фикс для футера, чтобы он не залазил */
   .m3-footer {
     margin-bottom: 0 !important;
-    padding-bottom: 24px !important;
+    padding-bottom: 48px !important;
   }
 }
         @media (min-width: 801px) {
@@ -237,7 +237,7 @@
 }
 
 
-@keyframes pageFadeOut {
+ @keyframes pageFadeOut {
     from {
         transform: translateY(0);
         opacity: 1;
