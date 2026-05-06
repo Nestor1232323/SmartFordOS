@@ -27,7 +27,7 @@ export default function handler(req, res) {
     {
       title: "Вышел официальный Smartford OS 2.0!",
       img: "/img/news/img4.png",
-      date: "2026-01-??",
+      date: "2026-01-10",
       description: "Smartford OS получила новый дизайн, совершенно уникальный и новый дизайн. В нём появилась размытость, а также motion-анимации в некоторых местах, Smartford OS после этого – совершенно новая и революционная система, дизайнерская команда Smartford OS делала это с усилиями и подходом к современному дизайну, а также эффекты стекла (почти) и glassmorphism. Также Smartford OS получила растянутые шрифты.",
       author: "SmartfordOS Insider"
     }

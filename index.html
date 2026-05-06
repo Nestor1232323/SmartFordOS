@@ -1,7 +1,355 @@
-<html>
-    <body>
-        <h1>SmartFordOS API</h1>
-        <hr>
-        <p>Этот сайт нужен для API на SmartFordOS.</p>
-    </body>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFord OS</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap"> 
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=api,arrow_back,article,close,code,dark_mode,description,download,forum,help,home,light_mode,menu,newspaper,palette,security,shield,terminal,videocam" />
+    <link rel="stylesheet" href="style.css" />
+    <script type="importmap">
+    {
+      "imports": {
+        "@material/web/": "https://esm.run/@material/web/",
+        "material-color-utilities": "https://esm.run/@material/material-color-utilities"
+      }
+    }
+    </script>
+<script type="module">
+    import 'https://esm.run/@material/web/all.js';
+    import { 
+      argbFromHex, 
+      hexFromArgb, 
+      SchemeTonalSpot, 
+      Hct,
+      themeFromSourceColor,
+      applyTheme
+    } from 'material-color-utilities';
+    const sourceColor = argbFromHex('#3C6C9C');
+    const hct = Hct.fromInt(sourceColor);
+    const theme = themeFromSourceColor(sourceColor);
+    const applyFullPalette = (isDark) => {
+        const scheme = new SchemeTonalSpot(hct, isDark, 0.0);
+        const root = document.documentElement;
+        const colorRoles = [
+            'primary', 'onPrimary', 'primaryContainer', 'onPrimaryContainer',
+            'secondary', 'onSecondary', 'secondaryContainer', 'onSecondaryContainer',
+            'outline', 'outlineVariant', 'surface', 'onSurface', 'onSurfaceVariant',
+            'surfaceContainerLowest', 'surfaceContainerLow', 'surfaceContainer', 
+            'surfaceContainerHigh', 'surfaceContainerHighest'
+        ];
+        colorRoles.forEach(role => {
+            const argb = scheme[role];
+            if (argb !== undefined) {
+                root.style.setProperty(`--md-sys-color-${role.replace(/([A-Z])/g, "-$1").toLowerCase()}`, hexFromArgb(argb));
+            }
+        });
+    };
+    const updateTheme = (isDark) => {
+        applyTheme(theme, { target: document.body, dark: isDark });
+        applyFullPalette(isDark);
+        document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+    };
+    const getAppPath = () => {
+        const params = new URLSearchParams(window.location.search);
+        const p = params.get('p');
+        const id = params.get('id');
+        if (p === 'article') return { hash: '#article', id: id };
+        if (p) return { hash: `#${p}`, id: null };
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        if (pathParts[0] === 'news' && pathParts[1]) return { hash: '#article', id: pathParts[1] };
+        const path = pathParts[0] || 'main';
+        return { hash: `#${path}`, id: null };
+    };
+    const navigate = async () => {
+        const { hash, id } = getAppPath();
+        const newSection = document.querySelector(hash);
+        const oldSection = document.querySelector('section.page-enter');
+        if (!newSection) return;
+        if (newSection === oldSection) {
+            if (hash === '#article') renderArticleById(id);
+            return;
+        }
+        if (oldSection) {
+            oldSection.classList.remove('page-enter');
+            oldSection.classList.add('page-exit');
+        }
+        setTimeout(async () => {
+            document.querySelectorAll('section').forEach(s => {
+                s.style.display = 'none';
+                s.classList.remove('page-exit');
+            });
+            newSection.style.display = 'block';
+            newSection.classList.add('page-enter');
+            if (hash === '#article') renderArticleById(id);
+        }, oldSection ? 250 : 0);
+        document.querySelectorAll('.nav-link').forEach(link => {
+            const href = link.getAttribute('href').replace('/', '') || 'main';
+            const current = hash.replace('#', '');
+            link.classList.toggle('active', href === current);
+        });
+    };
+    async function renderArticleById(id) {
+        const API_URL = '/api/v1/news/get';
+        try {
+            let response = await fetch(API_URL);
+            if (!response.ok) response = await fetch(FALLBACK_URL);
+            const result = await response.json();
+            const item = result.data[id];
+            if (item) {
+                document.getElementById('article-title').textContent = item.title;
+                document.getElementById('article-img').src = item.img;
+                document.getElementById('article-date').textContent = item.date;
+                document.getElementById('article-author').textContent = item.author;
+                document.getElementById('article-content').textContent = item.description;
+                window.scrollTo(0,0);
+            }
+        } catch (e) {  }
+    }
+const loadNews = async () => {
+    const container = document.getElementById('news-container');
+    const API_URL = '/api/v1/news/get';
+    const FALLBACK_URL = '/api/v1/news/get/index.json';
+    try {
+        let response = await fetch(API_URL);
+        let contentType = response.headers.get("content-type");
+        if (!response.ok || (contentType && contentType.includes("text/html"))) {
+            response = await fetch(FALLBACK_URL);
+        }
+        const result = await response.json();
+        const newsData = result.data;
+        container.innerHTML = newsData.map((item, index) => `
+            <div class="m3-card">
+                <div class="card-thumb" style="background-image: url('${item.img}'); background-size: cover; background-position: center;">
+                    ${!item.img ? `<md-icon>newspaper</md-icon>` : ''}
+                </div>
+                <div class="card-text">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-size: 12px; color: var(--md-sys-color-primary)">${item.date}</span>
+                        <span style="font-size: 11px; opacity: 0.7;">${item.author}</span>
+                    </div>
+                    <span class="card-title">${item.title}</span>
+                    <p class="body-medium" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 8px 0;">
+                        ${item.description}
+                    </p>
+                    <div style="margin-top: auto; padding-top: 16px;">
+                        <md-text-button href="/news/${index}">
+                            Читать полностью
+                        </md-text-button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        container.innerHTML = `<p>Не удалось загрузить новости.</p>`;
+    }
+};
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    updateTheme(darkModeQuery.matches);
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('.nav-link, md-filled-button[href]');
+        if (link && link.getAttribute('href').startsWith('/')) {
+            e.preventDefault();
+            history.pushState(null, '', link.getAttribute('href'));
+            navigate();
+        }
+    });
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+        const isDark = document.documentElement.style.colorScheme !== 'dark';
+        updateTheme(isDark);
+        document.querySelector('#theme-toggle md-icon').textContent = isDark ? 'light_mode' : 'dark_mode';
+    });
+    document.getElementById('back-to-news')?.addEventListener('click', () => {
+        history.pushState(null, '', '/news');
+        navigate();
+    });
+    window.addEventListener('popstate', navigate);
+    document.addEventListener('DOMContentLoaded', () => {
+        loadNews();
+        navigate();
+    });
+</script>
+</head>
+<body>
+    <nav class="nav-container">
+        <a href="/" class="nav-link">
+            <md-icon>home</md-icon>
+            <span>Главная</span>
+        </a>
+        <a href="/news" class="nav-link">
+            <md-icon>newspaper</md-icon>
+            <span>Новости</span>
+        </a>
+        <a href="/feedback" class="nav-link">
+            <md-icon>forum</md-icon>
+            <span>Связь</span>
+        </a>
+        <a href="/download" class="nav-link">
+            <md-icon>download</md-icon>
+            <span>Скачать</span>
+        </a>
+        <div class="bottom-actions">
+            <md-icon-button id="theme-toggle">
+                <md-icon>light_mode</md-icon>
+            </md-icon-button>
+        </div>
+    </nav>
+    <div class="main-content">
+    <section id="main">
+        <header class="hero-split">
+            <div class="hero-content">
+                <h1 class="display-large">SmartFord OS</h1>
+                <p class="body-large">Современная операционная система в PowerPoint, которая имеет уникальные функции и интуитивно понятный интерфейс, на ряду с красотой.</p>
+                <div class="hero-ctas">
+                    <md-filled-button href="#download">Скачать</md-filled-button>
+                </div>
+            </div>
+            <div class="hero-asset">
+                
+                <img src="/img/news/img5.png" alt="SmartFord OS Preview" class="hero-image">
+            </div>
+        </header>
+        <div class="content-sections">
+            <div class="section-header">
+                <h2 class="headline-medium">Smartford OS 3: Революция в дизайне</h2>
+                <p class="body-medium">SmartFord OS 3 - это новая версия операционной системы, которая сочетает в себе передовые технологии и интуитивно понятный интерфейс.</p>
+            </div>
+            <div class="m3-card-grid">
+                <a href="#" class="m3-card">
+                    <div class="card-thumb" style="background: var(--md-sys-color-primary-container)">
+                        <md-icon>palette</md-icon>
+                    </div>
+                    <div class="card-text">
+                        <span class="card-title">Динамические цвета</span>
+                        <span class="card-desc">Интерфейс меняется в зависимости от ваших обоев благодаря системе, встроенная внутри SmartFord OS   </span>
+                    </div>
+                </a>
+                <a href="#" class="m3-card">
+                    <div class="card-thumb" style="background: var(--md-sys-color-secondary-container)">
+                        <md-icon>download</md-icon>
+                    </div>
+                    <div class="card-text">
+                        <span class="card-title">Установка приложений</span>
+                        <span class="card-desc">В отличии от SmartFord OS 2, в новой версии добавлена установка своих приложений.</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+        <section id="news">
+            <h1 class="display-large">Новости системы</h1>
+            <p class="body-large">Следите за обновлениями и релизами Smartford OS в реальном времени.</p>
+            
+            <div id="news-container" class="m3-card-grid">
+                
+                <p>Загрузка свежих новостей...</p>
+            </div>
+        </section>
+        <section id="feedback">
+            <h1>Обратная связь</h1> 
+            <div class="center-wrapper">
+                
+                <div class="contact-cards">
+                    <a href="https://t.me/SmartfordOS" class="contact-card">
+                        <md-icon>forum</md-icon>
+                        <span>Telegram</span>
+                    </a>
+                    <a href="https://youtube.com/@SmartfordCo_official" class="contact-card">
+                        <md-icon>videocam</md-icon>
+                        <span>YouTube</span>
+                    </a>
+                    <a href="https://t.me/SmartfordOS?direct" class="contact-card">
+                        <md-icon>help</md-icon>
+                        <span>Telegram (поддержка)</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section id="download">
+            <h1>Скачать</h1>
+            <p>Загрузите последнюю версию SmartFord OS.</p>
+                        <div class="center-wrapper">
+                <div class="contact-cards">
+                    <a href="/download/smosb1.05.pptm" class="contact-card">
+                        <span>Smartford OS Beta 1.05</span>
+                    </a>
+                    <a href="/download/smosb1.2.pptm" class="contact-card">
+                        <span>Smartford OS Beta 1.2</span>
+                    </a>
+                    <a href="/download/smos1.0.pptm" class="contact-card">
+                        <span>Smartford OS 1.0</span>
+                    </a>
+                    <a href="/download/smos2.0.pptm" class="contact-card">
+                        <span>Smartford OS 2.0</span>
+                    </a>
+                    <a href="" class="contact-card"> <!-- TODO: при релизе, поставить рабочую ссылку -->
+                        <span>Smartford OS 3.0</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section id="article">
+    <md-filled-tonal-button id="back-to-news" style="margin-bottom: 24px;">
+        <md-icon slot="icon">arrow_back</md-icon>
+        Назад к новостям
+    </md-filled-tonal-button>
+    <article class="reader-container">
+        <img id="article-img" src="" alt="" class="article-hero-image">
+        <div class="article-header">
+            <h1 id="article-title" class="display-large"></h1>
+            <div class="article-meta">
+                <span id="article-date"></span> • <span id="article-author"></span>
+            </div>
+        </div>
+        <div id="article-content" class="body-large"></div>
+    </article>
+</section>
+                <footer class="m3-footer">
+    <div class="squiggle">
+        <svg aria-hidden="true" width="100%" height="8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <pattern id="squiggle-pattern" width="91" height="8" patternUnits="userSpaceOnUse">
+                <path d="M114 4c-5.067 4.667-10.133 4.667-15.2 0S88.667-.667 83.6 4 73.467 8.667 68.4 4 58.267-.667 53.2 4 43.067 8.667 38 4 27.867-.667 22.8 4 12.667 8.667 7.6 4-2.533-.667-7.6 4s-10.133 4.667-15.2 0S-32.933-.667-38 4s-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0" stroke="var(--md-sys-color-outline-variant)" stroke-linecap="square"></path>
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#squiggle-pattern)"></rect>
+        </svg>
+    </div>
+    <div class="footer-container">
+        <div class="footer-main">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <span>SmartFord OS</span>
+                </div>
+                <p>SmartfordOS это PowerPoint OS, с красивым и энтуитивно-понятным дизайном. Авторство пренадлежит Smartford Corporation (дочерняя компания TSD)</p>
+            </div>
+            <div class="footer-links-group">
+                <div class="footer-column">
+                    <h3>Сообщество</h3>
+                    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                        <md-text-button href="https://t.me/SmartfordOS" target="_blank">
+                            Telegram
+                        </md-text-button>
+                        <md-text-button href="https://youtube.com/@SmartfordCo_official" target="_blank">
+                            YouTube
+                        </md-text-button>
+                        <md-text-button href="https://t.me/TSD_TML_OFFICIAL" target="_blank">
+                            Telegram (TSD)
+                        </md-text-button>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Система</h3>
+                    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                        <md-text-button href="/docs/" target="_blank">
+                            Документация
+                        </md-text-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+    </div>
+</body>
 </html>

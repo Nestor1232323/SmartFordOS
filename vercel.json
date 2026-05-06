@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/news", "destination": "/?p=news" },
+    { "source": "/download", "destination": "/?p=download" },
+    { "source": "/feedback", "destination": "/?p=feedback" },
+    { "source": "/news/:id", "destination": "/?p=article&id=:id" }
+  ]
+}
