@@ -7,26 +7,26 @@
     <link rel="icon" href="/favicon_light.png" media="(prefers-color-scheme: light)">
     <link rel="icon" href="/favicon_dark.png" media="(prefers-color-scheme: dark)">
     
-    <link rel="stylesheet" href="">
-    <link rel="stylesheet" href=""> 
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500&display=swap">
 
     
-    <link rel="stylesheet" href="" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=api,article,code,content_copy,contrast,dark_mode,description,done,light_mode,menu,palette,security,shield,terminal" />
 
     <script type="importmap">
     {
       "imports": {
-        "@material/web/": "",
-        "material-color-utilities": ""
+        "@material/web/": "https://esm.run/@material/web/",
+        "material-color-utilities": "https://esm.run/@material/material-color-utilities"
       }
     }
     </script>
 
     <script type="module">
-import '';
+import 'https://esm.run/@material/web/all.js';
 import { argbFromHex, themeFromSourceColor, applyTheme } from 'material-color-utilities';
-import { styles as typescaleStyles } from '';
+import { styles as typescaleStyles } from 'https://esm.run/@material/web/typography/md-typescale-styles.js';
 document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
 const theme = themeFromSourceColor(argbFromHex('#3C6C9C'), [
     { name: 'custom-1', value: argbFromHex('#ff0000'), blend: true }
