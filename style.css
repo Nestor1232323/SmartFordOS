@@ -156,19 +156,307 @@
             align-items: center;
         }
 
-        
         @media (max-width: 1000px) {
-            .bottom-actions {
-                display: none;
-            }
-            
-            .nav-container {
-                justify-content: space-around;
-            }
-        }
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
 
-        
-        @media (min-width: 1001px) {
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body { flex-direction: column; }
+  .nav-container {
+    order: 2; 
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;  /* ДОБАВЬ ЭТО */
+    bottom: 0;        /* ДОБАВЬ ЭТО */
+    left: 0;          /* ДОБАВЬ ЭТО */
+    right: 0;         /* ДОБАВЬ ЭТО */
+    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
+    z-index: 1000;    /* ДОБАВЬ ЭТО */
+  }
+  .nav-container .bottom-actions { display: none; }
+  
+  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .main-content {
+    margin-bottom: 80px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+@media (min-width: 1001px) {
             .nav-container {
                 height: 100vh;
                 justify-content: center; 
