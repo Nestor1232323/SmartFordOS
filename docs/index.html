@@ -22,9 +22,393 @@
     }
     </script>
 
-    <script type="module" src="theme.js"></script>
-    <script type="module" src="code.js"></script>
-    <script type="module" src="spy.js"></script>
+    <script type="module">
+        import 'https://esm.run/@material/web/all.js';
+        import { argbFromHex, themeFromSourceColor, applyTheme } from 'material-color-utilities';
+        import { styles as typescaleStyles } from 'https://esm.run/@material/web/typography/md-typescale-styles.js';
+
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+
+        
+        const theme = themeFromSourceColor(argbFromHex('#3C6C9C'), [
+            { name: 'custom-1', value: argbFromHex('#ff0000'), blend: true }
+        ]);
+
+        const updateTheme = (isDark) => {
+            applyTheme(theme, { target: document.body, dark: isDark });
+            document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        };
+
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        updateTheme(mediaQuery.matches);
+        mediaQuery.addEventListener('change', e => updateTheme(e.matches));
+
+        window.toggleTheme = () => {
+            const isDark = document.documentElement.style.colorScheme === 'dark';
+            updateTheme(!isDark);
+        };
+        
+await customElements.whenDefined('md-list-item');
+
+const navItems = document.querySelectorAll('.nav-side md-list-item');
+
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        
+        navItems.forEach(nav => nav.removeAttribute('selected'));
+        
+        item.setAttribute('selected', '');
+    });
+});
+
+
+const highlightCurrentHash = () => {
+    const currentHash = window.location.hash;
+    if (currentHash) {
+        navItems.forEach(item => {
+            if (item.getAttribute('href') === currentHash) {
+                item.setAttribute('selected', '');
+            }
+        });
+    }
+};
+
+window.addEventListener('hashchange', highlightCurrentHash);
+highlightCurrentHash();
+
+    </script>
+<script type="module">
+    await Promise.all([
+        customElements.whenDefined('md-icon-button'),
+        customElements.whenDefined('md-icon')
+    ]);
+
+    const highlightSmapp = (text) => {
+        
+        let html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        return html
+            
+            
+            .replace(/^(#.*)$/gm, '<span class="syntax-comment">$1</span>')
+            
+            
+            .replace(/^(\[.*\])$/gm, '<span class="syntax-section">$1</span>')
+            
+            
+            
+            .replace(/^([\w.]+)\s*=(.*)$/gm, (match, key, value) => {
+                return `<span class="syntax-key">${key}</span>=<span class="syntax-value">${value}</span>`;
+            });
+    };
+
+    const codeBlocks = document.querySelectorAll('.code-block');
+    
+    codeBlocks.forEach(block => {
+        const rawText = block.textContent.trim();
+        
+        
+        block.innerHTML = highlightSmapp(rawText);
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-wrapper';
+        block.parentNode.insertBefore(wrapper, block);
+        wrapper.appendChild(block);
+
+        const copyBtn = document.createElement('md-icon-button');
+        copyBtn.className = 'copy-button';
+        const icon = document.createElement('md-icon');
+        icon.classList.add('material-symbols-rounded');
+        icon.textContent = 'content_copy';
+        copyBtn.appendChild(icon);
+        
+        copyBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(rawText);
+                icon.textContent = 'done';
+                icon.style.fontVariationSettings = "'FILL' 1";
+                setTimeout(() => {
+                    icon.textContent = 'content_copy';
+                    icon.style.fontVariationSettings = "'FILL' 0";
+                }, 2000);
+            } catch (err) { console.error(err); }
+        });
+
+        wrapper.appendChild(copyBtn);
+        
+    });
+</script>
+
+    <style>
+        :root {
+            
+            --md-ref-typeface-brand: 'Google Sans', 'Roboto', sans-serif;
+            --md-ref-typeface-plain: 'Roboto', sans-serif;
+            --md-code-font: 'Google Sans Code', Menlo, Monaco, 'Consolas', 'Courier New', monospace;
+            
+            
+            --catalog-top-app-bar-height: 64px;
+            --catalog-spacing-l: 24px;
+            --catalog-spacing-m: 16px;
+        }
+
+        * {
+            transition: background-color 0.1s, color 0.1s;
+        }
+        body {
+            margin: 0;
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            font-family: var(--md-ref-typeface-plain);
+        }
+        
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden !important; 
+        }
+
+
+        main {
+            height: 90vh; 
+        }
+        .content-container {
+            overflow-y: auto !important; 
+            scrollbar-width: thin !important;
+            scrollbar-color: var(--md-sys-color-outline-variant) transparent !important;
+            padding: 24px !important;
+            flex-grow: 1;
+            overflow-y: auto !important; 
+            border-radius: 12px 0px 0px 0px;
+            padding-top: 24px;
+            padding-bottom: 80px;
+            scroll-behavior: smooth;
+            max-width: calc(100% - 2 * var(--catalog-spacing-l));
+            width: 100%;
+            background: var(--md-sys-color-surface-container);
+            background-blend-mode: lighten;
+            background-color: rgba(255, 255, 255, 0.02); 
+        }
+
+        
+        .content-container::-webkit-scrollbar {
+            width: 5px !important;
+        }
+
+        .content-container::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+
+        .content-container::-webkit-scrollbar-thumb {
+            background: var(--md-sys-color-outline-container) !important;
+            border-radius: 10px !important;
+        }
+
+        .content-container::-webkit-scrollbar-thumb:hover {
+            background: var(--md-sys-color-on-surface-variant) !important;
+        }
+        header {
+            position: fixed;
+            inset: 0 0 auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-sizing: border-box;
+            padding: 0 var(--catalog-spacing-l);
+            height: var(--catalog-top-app-bar-height);
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-surface);
+            z-index: 12;
+            box-shadow: var(--md-sys-elevation-1);
+            
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--md-ref-typeface-brand);
+            
+        }
+
+        main {
+            margin-top: calc(var(--catalog-top-app-bar-height) + 24px);
+            padding: 0 var(--catalog-spacing-l);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+
+
+
+        section {
+            margin-bottom: 40px;
+            scroll-margin-top: 80px;
+            
+        }
+
+        .code-block {
+            font-family: var(--md-code-font);
+            font-size: 14px;
+            background: var(--md-sys-color-surface-container-highest);
+            color: var(--md-sys-color-on-surface-variant);
+            padding: 1.5rem;
+            border-radius: 16px;
+            overflow-x: auto;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            white-space: pre;
+            margin: 16px 0;
+            
+        }
+
+        h1, h2, h3 {
+            font-family: var(--md-ref-typeface-brand);
+            
+        }
+
+        .component-card {
+            background-color: var(--md-sys-color-surface-container-low);
+            border-radius: 24px;
+            padding: 24px;
+            margin: 16px 0;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            
+        }
+
+        .component-card2 {
+            background-color: transparent;
+            border-radius: 24px;
+            padding: 12px;
+            margin: 16px 0;            
+        }
+
+        .token-chip {
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-family: var(--md-code-font);
+            font-size: 0.85em;
+            display: inline-block; 
+            margin: 4px 4px;         
+            vertical-align: middle;
+        }
+
+        .fab-theme {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+        }
+        
+        @media (max-width: 600px) {
+            :root { --catalog-spacing-l: 16px; }
+            .header-title span { display: none; }
+        }
+
+main {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important; 
+    gap: 24px;
+    height: calc(100vh - var(--catalog-top-app-bar-height)); 
+    margin-top: var(--catalog-top-app-bar-height) !important;
+    padding: 0px 0px 0px var(--catalog-spacing-l) !important;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden; 
+}
+
+
+.nav-side {
+    width: 280px;
+    padding-top: 24px;
+    overflow-y: auto; 
+    flex-shrink: 0;
+}
+
+
+.nav-side::-webkit-scrollbar {
+    width: 0px;
+}
+.nav-side {
+    scrollbar-width: none;
+}
+
+
+md-list-item {
+    --md-list-item-container-shape: 100px; 
+    margin-bottom: 4px;
+}
+md-list {
+    background: transparent;
+}
+
+
+md-list-item {
+    border-radius: 50px; 
+
+}
+
+md-list-item:hover {
+    background-color: var(--md-sys-color-surface-container-high);
+}
+
+md-icon {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 24;
+  
+  font-family: 'Material Symbols Rounded';
+}
+
+.code-wrapper {
+    position: relative;
+    margin: 16px 0;
+}
+
+.copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background-color: var(--md-sys-color-surface-container-high);
+    border-radius: 12px;
+    z-index: 5;
+}
+
+.code-wrapper:hover .copy-button,
+.code-wrapper:focus-within .copy-button {
+    opacity: 1;
+}
+
+.code-block .syntax-section {
+    color: var(--md-sys-color-primary);
+    font-weight: 600;
+}
+
+.code-block .syntax-key {
+    color: var(--md-sys-color-on-surface);
+    font-weight: 500;
+}
+
+.code-block .syntax-value {
+    color: var(--md-sys-color-primary);
+}
+
+.code-block .syntax-comment {
+    color: var(--md-sys-color-outline);
+    font-style: italic;
+}
+
+md-list-item[selected] {
+    background: var(--md-sys-color-secondary-container);
+}
+    </style>
 </head>
 <body>
 
@@ -278,5 +662,57 @@ updateUI=smartfordos.ui.update("text1", "{res}")</div>
 
     </div>
 </main>
+<script type="module">
+
+function setupScrollSpy() {
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-side md-list-item');
+    
+    if (sections.length === 0 || navItems.length === 0) return;
+    
+    function updateActiveSection() {
+        let current = '';
+        const contentContainer = document.querySelector('.content-container');
+        const scrollTop = contentContainer ? contentContainer.scrollTop : window.scrollY;
+        const containerOffset = contentContainer ? contentContainer.offsetTop : 0;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - containerOffset - 100;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            
+            if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        
+        if (!current && scrollTop < 100 && sections.length > 0) {
+            current = sections[0].getAttribute('id');
+        }
+        
+        navItems.forEach(item => {
+            const href = item.getAttribute('href');
+            if (href === `#${current}`) {
+                item.setAttribute('selected', '');
+            } else {
+                item.removeAttribute('selected');
+            }
+        });
+    }
+    
+    const contentContainer = document.querySelector('.content-container');
+    if (contentContainer) {
+        contentContainer.addEventListener('scroll', updateActiveSection);
+        updateActiveSection(); 
+    }
+}
+
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupScrollSpy);
+} else {
+    setupScrollSpy();
+}
+</script>
 </body>
 </html>
