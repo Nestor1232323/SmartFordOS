@@ -196,13 +196,13 @@
   
   /* Главное — отступ для всего скроллящегося контента */
   .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 24px !important;
+    margin-bottom: 100px !important;
+    padding-bottom: 48px !important;
   }
   
   /* Дополнительно — фикс для футера, чтобы он не залазил */
   .m3-footer {
-    margin-bottom: 0 !important;
+    margin-bottom: 0 !important; 
     padding-bottom: 48px !important;
   }
 }
