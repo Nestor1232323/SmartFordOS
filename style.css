@@ -28,7 +28,7 @@
         }
 
         
-        @media (min-width: 601px) {
+        @media (min-width: 801px) {
             .nav-container {
                 width: 80px;
                 height: 100vh;
@@ -46,7 +46,7 @@
         }
 
         
-        @media (max-width: 1000px) {
+        @media (max-width: 800px) {
             body { flex-direction: column; }
             .nav-container {
                 order: 2; 
@@ -156,8 +156,22 @@
             align-items: center;
         }
 
-        @media (max-width: 1000px) {
-  body { flex-direction: column; }
+        
+        @media (max-width: 800px) {
+            .bottom-actions {
+                display: none;
+            }
+            
+            .nav-container {
+                justify-content: space-around;
+            }
+        }
+
+        @media (max-width: 800px) {
+  body { 
+    flex-direction: column; 
+  }
+  
   .nav-container {
     order: 2; 
     width: 100%;
@@ -165,298 +179,34 @@
     flex-direction: row;
     justify-content: space-around;
     padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+      rgba(255, 255, 255, 0.05), 
+      rgba(255, 255, 255, 0.05)
+    ), var(--md-sys-color-surface);
+    z-index: 1000;
   }
-  .nav-container .bottom-actions { display: none; }
   
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
+  .nav-container .bottom-actions { 
+    display: none; 
+  }
+  
+  /* Главное — отступ для всего скроллящегося контента */
   .main-content {
     margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
+    padding-bottom: 24px !important;
   }
-}
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
   
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
+  /* Дополнительно — фикс для футера, чтобы он не залазил */
+  .m3-footer {
+    margin-bottom: 0 !important;
+    padding-bottom: 24px !important;
   }
 }
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
-  
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
-  }
-}
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
-  
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
-  }
-}
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
-  
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
-  }
-}
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
-  
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
-  }
-}
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
-  
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
-  }
-}
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
-  
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
-  }
-}
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
-  
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
-  }
-}
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
-  
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
-  }
-}
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
-  
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
-  }
-}
-
-@media (max-width: 1000px) {
-  body { flex-direction: column; }
-  .nav-container {
-    order: 2; 
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    position: fixed;  /* ДОБАВЬ ЭТО */
-    bottom: 0;        /* ДОБАВЬ ЭТО */
-    left: 0;          /* ДОБАВЬ ЭТО */
-    right: 0;         /* ДОБАВЬ ЭТО */
-    background: var(--md-sys-color-surface); /* ДОБАВЬ ЭТО */
-    z-index: 1000;    /* ДОБАВЬ ЭТО */
-  }
-  .nav-container .bottom-actions { display: none; }
-  
-  /* САМОЕ ВАЖНОЕ — отступ для контента */
-  .main-content {
-    margin-bottom: 80px !important;
-    padding-bottom: 16px !important;
-  }
-}
-
-@media (min-width: 1001px) {
+        @media (min-width: 801px) {
             .nav-container {
                 height: 100vh;
                 justify-content: center; 
@@ -536,7 +286,7 @@ section.page-exit {
             width: calc(100% - 48px); 
             font-variation-settings: 'FILL' 1;
         }
-        @media (max-width: 600px) {
+        @media (max-width: 800px) {
             .contact-cards {
                 width: calc(100% - 3px); 
             }
@@ -775,7 +525,7 @@ section.page-exit {
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     .hero-content {
         padding: 32px 24px;
     }
