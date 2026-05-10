@@ -1,0 +1,33 @@
+[Metadata]
+id=com.smartfordos.example.myapp
+title=Пример приложения
+version=1.0.0
+author=SmartFord Company
+permissions=["storage", "network"]
+minimal_version_of_smos=3.0
+
+[Button1]
+type=button
+label=Нажми меня
+onClick=handleButtonClick
+buttonStyle="filled"
+position=["middle", "bottom"]
+margin=["0", "2"]
+id=btn1
+
+[Text1]
+type=text
+id=text1
+content=Привет, SmartFord OS!
+font=Arial
+margin=["2", "0"]
+color="onSurface"
+align="center"
+position=["left", "top"]
+size=18
+
+[Events]
+handleButtonClick=smartfordos.api.storage.create_dir(".test") -> onDirCreated
+onDirCreated=smartfordos.api.storage.write_file(".test/new.txt", "Hello!") -> handleRead
+handleRead=smartfordos.api.storage.file.read(".test/new.txt") -> updateUI
+updateUI=smartfordos.ui.update("text1", "{res}")
