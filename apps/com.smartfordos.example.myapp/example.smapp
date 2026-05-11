@@ -2,6 +2,7 @@
 id=com.smartfordos.example.myapp
 title=Пример приложения
 version=1.0.0
+icon="https://smartford.vercel.app/apps/com.smartfordos.example.myapp/icon.png"
 author=SmartFord Company
 permissions=["storage", "network"]
 minimal_version_of_smos=3.0
