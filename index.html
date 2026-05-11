@@ -122,6 +122,8 @@ const loadNews = async () => {
         }
         const result = await response.json();
         const newsData = result.data;
+        newsData.reverse();
+
         container.innerHTML = newsData.map((item, index) => `
             <div class="m3-card">
                 <div class="card-thumb" style="background-image: url('${item.img}'); background-size: cover; background-position: center;">
@@ -212,13 +214,14 @@ const loadNews = async () => {
                 
                 <img src="/img/news/img5.png" alt="SmartFord OS Preview" class="hero-image">
             </div>
-        </header>
-        <div class="content-sections">
-            <div class="section-header">
+        </header>            
+        <div class="section-header">
                 <h2 class="headline-medium">Smartford OS 3: Революция в дизайне</h2>
                 <p class="body-medium">SmartFord OS 3 - это новая версия операционной системы, которая сочетает в себе передовые технологии и интуитивно понятный интерфейс.</p>
             </div>
-            <div class="m3-card-grid">
+        <div class="content-sections" style="justify-content: center;display: flex;">
+
+            <div class="m3-card-grid" style="max-width: calc(100% - 50%);">
                 <a href="#" class="m3-card">
                     <div class="card-thumb" style="background: var(--md-sys-color-primary-container)">
                         <md-icon>palette</md-icon>
