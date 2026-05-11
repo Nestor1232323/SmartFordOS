@@ -559,20 +559,20 @@ window.addEventListener('hashchange', scrollToHash);
             Документация движка SmartFord OS: рендеринг .smapp, API (storage, network, prefs, UI) и выполнение цепочек событий.
         </p>
 
-        
-        <section id="structure">
-            <h2 class="md-typescale-headline-medium">
-                <span class="material-symbols-rounded">description</span>
-                Структура
-            </h2>
+       <section id="structure">
+    <h2 class="md-typescale-headline-medium">
+        <span class="material-symbols-rounded">description</span>
+        Структура
+    </h2>
 
-            <p class="md-typescale-body-medium">
-                Файл читается функцией <span class="token-chip">RenderApp</span>, разбивается на секции и преобразуется в UI.
-            </p>
+    <p class="md-typescale-body-medium">
+        Файл читается функцией <span class="token-chip">RenderApp</span>, разбивается на секции и преобразуется в UI.
+    </p>
 
-            <div class="code-block">[Metadata]
+    <div class="code-block">[Metadata]
 id=com.smartfordos.example.myapp
 title=Пример приложения
+icon=https://example.com/icon.png
 permissions=["storage","network"]
 
 [Button1]
@@ -592,8 +592,42 @@ margin=["2", "0"]
 
 [Events]
 handleButtonClick=smartfordos.ui.update("text1","Clicked")</div>
-        </section>
 
+    <div class="component-card2" style="margin-top: 16px;">
+        <h3 class="md-typescale-title-medium">Параметры Metadata</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+                <span class="token-chip">id</span>
+                <span class="md-typescale-body-small" style="margin-left: 8px;">— уникальный идентификатор приложения (используется для пути хранения)</span>
+            </div>
+            <div>
+                <span class="token-chip">title</span>
+                <span class="md-typescale-body-small" style="margin-left: 8px;">— название приложения (отображается в заголовках)</span>
+            </div>
+            <div>
+                <span class="token-chip">icon</span>
+                <span class="md-typescale-body-small" style="margin-left: 8px;">— URL иконки приложения (поддерживается HTTP/HTTPS, файл кэшируется в %TEMP%)</span>
+            </div>
+            <div>
+                <span class="token-chip">permissions</span>
+                <span class="md-typescale-body-small" style="margin-left: 8px;">— массив разрешений (storage, network)</span>
+            </div>
+            <div>
+                <span class="token-chip">version</span>
+                <span class="md-typescale-body-small" style="margin-left: 8px;">— версия приложения (опционально)</span>
+            </div>
+            <div>
+                <span class="token-chip">author</span>
+                <span class="md-typescale-body-small" style="margin-left: 8px;">— автор приложения (опционально)</span>
+            </div>
+            <div>
+                <span class="token-chip">minimal_version_of_smos</span>
+                <span class="md-typescale-body-small" style="margin-left: 8px;">— минимальная версия SmartFord OS (опционально)</span>
+            </div>
+        </div>
+    </div>
+</section>
         
         <section id="components">
             <h2 class="md-typescale-headline-medium">
