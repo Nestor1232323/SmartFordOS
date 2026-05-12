@@ -121,9 +121,14 @@ const loadNews = async () => {
             response = await fetch(FALLBACK_URL);
         }
         const result = await response.json();
+        
         const newsData = result.data;
-        newsData.reverse();
-        container.innerHTML = newsData.map((item, index) => `
+        const reversedNews = [...newsData].reverse(); 
+        
+        container.innerHTML = reversedNews.map((item, reversedIndex) => {
+            const originalIndex = newsData.findIndex(originalItem => originalItem === item);
+            
+            return `
             <div class="m3-card">
                 <div class="card-thumb" style="background-image: url('${item.img}'); background-size: cover; background-position: center;">
                     ${!item.img ? `<md-icon>newspaper</md-icon>` : ''}
@@ -138,13 +143,14 @@ const loadNews = async () => {
                         ${item.description}
                     </p>
                     <div style="margin-top: auto; padding-top: 16px;">
-                        <md-text-button href="/news/${index}">
+                        <md-text-button href="/news/${originalIndex}">
                             Читать полностью
                         </md-text-button>
                     </div>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
+        
     } catch (error) {
         container.innerHTML = `<p>Не удалось загрузить новости.</p>`;
     }
@@ -200,30 +206,41 @@ const loadNews = async () => {
         </div>
     </nav>
     <div class="main-content">
-    <section id="main">
-        <header class="hero-split">
-            <div class="hero-content">
-                <h1 class="display-large">Smartford OS</h1>
-                <p class="body-large">Современная операционная система в PowerPoint, которая имеет уникальные функции и интуитивно понятный интерфейс, на ряду с красотой.</p>
-                <div class="hero-ctas">
-                    <md-filled-button href="#download">Скачать</md-filled-button>
-                </div>
-            </div>
-            <div class="hero-asset">
+            <section id="main" class="page-enter" style="display: block;">
+                <header class="hero-split">
+                    <div class="hero-content">
+                        <h1 class="display-large">Smartford OS</h1>
+                        <p class="body-large">Современная операционная система в PowerPoint, которая имеет уникальные функции и интуитивно понятный интерфейс, на ряду с красотой.</p>
+                        <div class="hero-ctas">
+                            <md-filled-button href="#download" value="">Скачать</md-filled-button>
+                        </div>
+                    </div>
+                    <div class="hero-asset">
+                        
+                        <img src="/img/news/img5.png" alt="Smartford OS Preview" class="hero-image">
+                    </div>
+                </header>            
                 
-                <img src="/img/news/img5.png" alt="Smartford OS Preview" class="hero-image">
-            </div>
-        </header>            
-        <div class="section-header">
+                <div class="section-header" style="
+            margin-top: 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        ">
+            <div style="text-align: left;max-width: 800px;"> 
                 <h2 class="headline-medium">Smartford OS 3: Революция в дизайне</h2>
                 <p class="body-medium">Smartford OS 3 - это новая версия операционной системы, которая сочетает в себе передовые технологии и интуитивно понятный интерфейс.</p>
             </div>
-        <div class="content-sections">
+        </div>
+        <div class="content-sections" style="
+            justify-content: center;
+            display: flex;
+        ">
 
             <div class="m3-card-grid">
                 <a href="#" class="m3-card">
                     <div class="card-thumb" style="background: var(--md-sys-color-primary-container)">
-                        <md-icon>palette</md-icon>
+                        <md-icon aria-hidden="true">palette</md-icon>
                     </div>
                     <div class="card-text">
                         <span class="card-title">Динамические цвета</span>
@@ -232,7 +249,7 @@ const loadNews = async () => {
                 </a>
                 <a href="#" class="m3-card">
                     <div class="card-thumb" style="background: var(--md-sys-color-secondary-container)">
-                        <md-icon>download</md-icon>
+                        <md-icon aria-hidden="true">download</md-icon>
                     </div>
                     <div class="card-text">
                         <span class="card-title">Установка приложений</span>
